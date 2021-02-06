@@ -1,7 +1,7 @@
-##About
+#About
 This program finds words in the text and makes it UPPERCASE.
 
-##Usage
+#Usage
 Put input to the file in.txt in format
 
 1 line - the text 
