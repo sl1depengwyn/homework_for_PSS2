@@ -70,8 +70,8 @@ int main() {
     string text, query;
     int numberOfQuery;
 
-    fin.open("../in.txt");
-    fout.open("../out.txt");
+    fin.open("in.txt");
+    fout.open("out.txt");
 
     getline(fin, text);
     fin >> numberOfQuery;
