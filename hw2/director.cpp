@@ -9,10 +9,10 @@ director::director(string name, string secondName, string email, string mPhone, 
 }
 
 void director::signPapers() {
-
+    // paper.sign();
 }
 
 void director::decreaseScholarship() {
-
+    // make all students sad
 }
 
