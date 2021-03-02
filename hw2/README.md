@@ -7,9 +7,13 @@ Many thanks to the contributors!
 ## Details
 
 My system has the following unique and extremly useful features:
+
 It can wish happy birthday!
+
 It knows favorite jokes of professors!
+
 It has the most realistic model of student that can shushukatsa or nyit'!
+
 It has the model of a very kind director that can decrease scholarships!
 
 ## Usage
