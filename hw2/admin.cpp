@@ -24,4 +24,3 @@ void admin::ban(person& smoneBad, room& smroom) {
 void admin::unban(person& smoneNotBadAnymore, room& smroom) {
     smroom.unban(smoneNotBadAnymore);
 }
-

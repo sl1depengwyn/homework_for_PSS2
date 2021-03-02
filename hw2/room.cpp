@@ -62,8 +62,3 @@ bool room::openDoor(person& smone) {
     return false;
 }
 
-
-
-
-
-

@@ -1,6 +1,3 @@
-//
-// Created by KITT on 27.02.2021.
-//
 
 #pragma once
 

@@ -15,4 +15,3 @@ void director::signPapers() {
 void director::decreaseScholarship() {
     // make all students sad
 }
-
