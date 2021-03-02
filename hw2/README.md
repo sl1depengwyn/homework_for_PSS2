@@ -12,6 +12,9 @@ It knows favorite jokes of professors!
 It has the most realistic model of student that can shushukatsa or nyit'!
 It has the model of a very kind director that can decrease scholarships!
 
+You know whether room has markers(and add), whether batteries in mic(and add), is it clean or not
+and you know who cleaned the room!
+
 ## Usage
 
 

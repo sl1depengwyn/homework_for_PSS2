@@ -89,6 +89,9 @@ int main() {
     /* also admin can ban, cancel additional access, and unban
      * students can niyt' and shushukatsa
      * director can decrease scholarship and sign papers
+     *
+     * you know whether room has markers(and add), whether batteries in mic(and add), is it clean or not
+     * and you know who cleaned the room
      */
 
     return 0;
