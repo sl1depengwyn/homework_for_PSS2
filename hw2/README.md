@@ -1,21 +1,22 @@
 ## About
 
-This program finds words in the text and makes it UPPERCASE.
+This is an ideal access system for university, for example.
+
+Many thanks to the contributors!
+
+## Details
+
+My system has the following unique and extremly useful features:
+It can wish happy birthday!
+It knows favorite jokes of professors!
+It has the most realistic model of student that can shushukatsa or nyit'!
+It has the model of a very kind director that can decrease scholarships!
 
 ## Usage
 
-Put input to the file in.txt in format
-
-1 line - the text
-
-2 line - the number of queries
-
-next n lines - queries
-
-then do these commands in cmd
 
 ```shell script
-cd ../hw2strings
-g++ -o filename main.cpp
+cd ../hw2
+g++ -o filename admin.cpp cabinet.cpp classRoom.cpp common.h conferenceRoom.cpp director.cpp directorCabinet.cpp labEmployee.cpp lectureRoom.cpp main.cpp person.cpp professor.cpp room.cpp student.cpp
 filename.exe
 ```
