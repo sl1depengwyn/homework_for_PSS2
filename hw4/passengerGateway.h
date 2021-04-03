@@ -4,7 +4,7 @@
 //#define HW4_PASSENGERGATEWAY_H
 
 
-class PassengerGateway {
+class passengerGateway {
 
 };
 

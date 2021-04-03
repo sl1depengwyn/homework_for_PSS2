@@ -3,8 +3,10 @@
 //#ifndef HW4_CAR_H
 //#define HW4_CAR_H
 
+#include <string>
 
-class Car {
+class car {
+private:
 
 };
 

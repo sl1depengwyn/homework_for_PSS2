@@ -4,7 +4,7 @@
 //#define HW4_PASSANGER_H
 
 
-class Passanger {
+class passanger {
 
 };
 

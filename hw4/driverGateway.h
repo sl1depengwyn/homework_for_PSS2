@@ -4,7 +4,7 @@
 //#define HW4_DRIVERGATEWAY_H
 
 
-class DriverGateway {
+class driverGateway {
 
 };
 
