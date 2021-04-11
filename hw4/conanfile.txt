@@ -1,8 +1,9 @@
 [requires]
-sqlite3/3.34.1
+sqlite_orm/1.6
 
 [generators]
 cmake_find_package
+markdown
 
 [imports]
 bin, *.dll -> ./bin # Copies all dll files from the package "bin" folder to my project "bin" folder
