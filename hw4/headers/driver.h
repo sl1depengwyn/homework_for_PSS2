@@ -5,8 +5,9 @@
 
 #include "user.h"
 
-class driver  : public user::user {
-
+class driver  : public user {
+public:
+    driver(std::string name = "NO_USER", std::string login = "NO_USER", std::string password = "");
 };
 
 
