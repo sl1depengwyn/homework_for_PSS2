@@ -6,14 +6,14 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "order.h"
+
+class order;
 
 class user {
 public:
     int id = -1;
     std::string name;
     double rating;
-    std::vector<order> orderHistory;
     std::string login;
     int password;
 

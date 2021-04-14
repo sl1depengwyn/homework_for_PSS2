@@ -5,13 +5,15 @@
 
 #include "user.h"
 #include "common.h"
+#include "address.h"
 #include <vector>
-
 
 class passenger : public user {
 public:
-    std::vector<paymentMethod> paymentMethods;
+
+
     passenger(std::string name = "NO_USER", std::string login = "NO_USER", std::string password = "");
+
 };
 
 
