@@ -5,6 +5,7 @@
 
 #include <sqlite_orm/sqlite_orm.h>
 #include <iostream>
+#include "car.h"
 
 class driver;
 

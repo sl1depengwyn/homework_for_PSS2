@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "address.h"
+#include <ctime>
 
 class driver;
 
@@ -16,6 +17,7 @@ public:
     address to;
     carType type;
     orderStatus status;
+    long long timeOfCreating;
     int cardPayed;
     int rating;
     int paid;

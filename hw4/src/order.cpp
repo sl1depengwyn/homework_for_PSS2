@@ -7,4 +7,5 @@ order::order(address from, address to, carType type) {
     this->to = to;
     this->type = type;
     this->status = justCreated;
+    this->timeOfCreating = time(nullptr);
 }
