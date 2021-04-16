@@ -9,3 +9,7 @@ order::order(address from, address to, carType type) {
     this->status = justCreated;
     this->timeOfCreating = time(nullptr);
 }
+
+void order::assignDriver(int drvr) {
+    driver = drvr;
+}

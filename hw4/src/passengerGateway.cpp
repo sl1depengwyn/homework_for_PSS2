@@ -9,18 +9,6 @@ passengerGateway::passengerGateway() {
     isLoggedIn = false;
 }
 
-inline auto initUsersStorage(const std::string &path) {
-    auto storage = make_storage(path,
-                                make_table("users",
-                                           make_column("id", &user::id, autoincrement(), primary_key()),
-                                           make_column("login", &user::login, unique()),
-                                           make_column("password", &user::password),
-                                           make_column("name", &user::name),
-                                           make_column("rating", &user::rating)));
-    storage.sync_schema();
-    return storage;
-}
-
 inline auto initOrderStorage(const std::string &path) {
     auto storage = make_storage(path,
                                 make_table("orders",

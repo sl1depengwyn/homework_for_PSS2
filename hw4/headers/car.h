@@ -5,18 +5,21 @@
 
 #include <string>
 #include "common.h"
-#include "address.h"
+#include "order.h"
 
 class car {
 public:
     int id;
+    int driverId;
     std::string model;
     std::string numberPlate;
     std::string color;
     carType type;
-    address currentAddress;
+    int currentAddress;
     int bottleCount;
-    void parkRightInFrontOfTheEntrance(address client);
+    void parkRightInFrontOfTheEntrance(order currentOrder);
+    car();
+    car(int driverId, std::string model, std::string numberPlate, std::string color, carType type);
 };
 
 

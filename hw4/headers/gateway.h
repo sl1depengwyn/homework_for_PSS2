@@ -5,9 +5,9 @@
 
 #include <string>
 #include <vector>
+#include "user.h"
 
 class order;
-class user;
 
 class gateway {
 protected:

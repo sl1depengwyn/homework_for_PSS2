@@ -20,7 +20,7 @@ public:
     long long timeOfCreating;
     int cardPayed;
     int rating;
-    int paid;
+    double paid;
     int driver;
     int passenger;
     order(address from = address(), address to = address(), carType type = economy);
