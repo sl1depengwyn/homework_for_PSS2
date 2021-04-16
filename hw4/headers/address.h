@@ -13,7 +13,9 @@ public:
     std::string stringRepresentation;
     int x;
     int y;
+
     int calculateDist(address otherAdr);
+
     address(std::string strRepresentation = "NO_ADDRESS", int x = 0, int y = 0);
 };
 

@@ -1,7 +1,9 @@
 #include "../headers/car.h"
+#include <iostream>
+using namespace std;
 
 void car::parkRightInFrontOfTheEntrance(order currentOrder) {
-    this->currentAddress = currentOrder.from.id;
+    cout << "parked right in front of the entrance" << endl;
 }
 
 car::car(int intDriver, std::string model, std::string numberPlate, std::string color, carType type) {

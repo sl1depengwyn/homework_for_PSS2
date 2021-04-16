@@ -12,3 +12,9 @@ user::user(string name, string login, string password) {
     this->password = hasher(password);
     this->rating = 0;
 }
+
+void user::updateRating(int r) {
+    ratingSum += r;
+    numberOfRides ++;
+    rating = ratingSum / numberOfRides;
+}

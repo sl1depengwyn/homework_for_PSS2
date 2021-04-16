@@ -29,8 +29,7 @@ inline auto initOrderStorage(const std::string &path) {
                                            make_column("status", &order::status),
                                            make_column("driver", &order::driver),
                                            make_column("payed", &order::paid),
-                                           make_column("card_payed", &order::cardPayed),
-                                           make_column("rating", &order::rating)));
+                                           make_column("card_payed", &order::cardPayed)));
     storage.sync_schema();
     return storage;
 }

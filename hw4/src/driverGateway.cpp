@@ -1,11 +1,21 @@
 #include "../headers/driverGateway.h"
 
 
-driverGateway::driverGateway() {
-    carId = -1;
-}
+driverGateway::driverGateway() = default;
 
 using namespace sqlite_orm;
+
+inline auto initUsersStorage(const std::string &path) {
+    auto storage = make_storage(path,
+                                make_table("users",
+                                           make_column("id", &user::id, autoincrement(), primary_key()),
+                                           make_column("login", &user::login, unique()),
+                                           make_column("password", &user::password),
+                                           make_column("name", &user::name),
+                                           make_column("rating", &user::rating)));
+    storage.sync_schema();
+    return storage;
+}
 
 inline auto initCarsStorage(const std::string &path) {
     auto storage = make_storage(path,
@@ -15,7 +25,8 @@ inline auto initCarsStorage(const std::string &path) {
                                            make_column("color", &car::color),
                                            make_column("type", &car::type),
                                            make_column("bottles", &car::bottleCount),
-                                           make_column("address", &car::currentAddress)));
+                                           make_column("x_coord", &car::x),
+                                           make_column("y_coord", &car::y)));
     storage.sync_schema();
     return storage;
 }
@@ -39,10 +50,10 @@ inline auto initOrderStorage(const std::string &path) {
                                            make_column("car_type", &order::type),
                                            make_column("status", &order::status),
                                            make_column("driver", &order::driver),
+                                           make_column("car", &order::car),
                                            make_column("payed", &order::paid),
                                            make_column("time_of_creating", &order::timeOfCreating),
-                                           make_column("card_payed", &order::cardPayed),
-                                           make_column("rating", &order::rating)));
+                                           make_column("card_payed", &order::cardPayed)));
     storage.sync_schema();
     return storage;
 }
@@ -79,18 +90,23 @@ std::vector<order> driverGateway::getAvailableOrders() {
 }
 
 bool driverGateway::takeOrder(int id) {
+    if (currentCar.id == -1) {
+        std::cout << "You have no car" << std::endl;
+        return false;
+    }
     auto storage = initOrderStorage("..db/db/sqlite");
     auto takenOrder = storage.get<order>(id);
     if (takenOrder.status != waitingForDriver) return false;
     takenOrder.status = inProcess;
     takenOrder.assignDriver(currentUser->id);
     currentOrder = &takenOrder;
+    currentOrder->car = currentCar.id;
     storage.update(*currentOrder);
     work();
     return true;
 }
 
-bool driverGateway::finishOrder() {
+bool driverGateway::finishOrder(int rating) {
     currentOrder->status = finished;
     currentOrder->paid = currentOrder->from.calculateDist(currentOrder->to);
     switch (currentOrder->type) {
@@ -109,13 +125,19 @@ bool driverGateway::finishOrder() {
     }
     auto storage = initOrderStorage("../db/db.sqlite");
     storage.update(*currentOrder);
+    if (rating != -1) {
+        auto userStorage = initUsersStorage("../db/db.sqlite");
+        auto passenger = userStorage.get<user>(currentOrder->passenger);
+        passenger.updateRating(rating);
+        userStorage.update(passenger);
+    }
     return true;
 }
 
 bool driverGateway::addCar(std::string model, std::string numberPlate, std::string color, carType type) {
     auto storage = initCarsStorage("../db/db.sqlite");
     car newCar(currentUser->id, model, numberPlate, color, type);
-    storage.insert(newCar);
+    newCar.id = storage.insert(newCar);
     return true;
 }
 

@@ -2,12 +2,40 @@
 #include "../headers/passengerGateway.h"
 #include "../headers/order.h"
 #include "../headers/user.h"
+#include "../headers/car.h"
 
 using namespace sqlite_orm;
 
 passengerGateway::passengerGateway() {
     isLoggedIn = false;
 }
+
+inline auto initUsersStorage(const std::string &path) {
+    auto storage = make_storage(path,
+                                make_table("users",
+                                           make_column("id", &user::id, autoincrement(), primary_key()),
+                                           make_column("login", &user::login, unique()),
+                                           make_column("password", &user::password),
+                                           make_column("name", &user::name),
+                                           make_column("rating", &user::rating)));
+    storage.sync_schema();
+    return storage;
+}
+
+inline auto initCarsStorage(const std::string &path) {
+    auto storage = make_storage(path,
+                                make_table("cars",
+                                           make_column("id", &car::id, autoincrement(), primary_key()),
+                                           make_column("model", &car::model),
+                                           make_column("color", &car::color),
+                                           make_column("type", &car::type),
+                                           make_column("bottles", &car::bottleCount),
+                                           make_column("x_coord", &car::x),
+                                           make_column("y_coord", &car::y)));
+    storage.sync_schema();
+    return storage;
+}
+
 
 inline auto initOrderStorage(const std::string &path) {
     auto storage = make_storage(path,
@@ -16,10 +44,10 @@ inline auto initOrderStorage(const std::string &path) {
                                            make_column("car_type", &order::type),
                                            make_column("status", &order::status),
                                            make_column("driver", &order::driver),
+                                           make_column("car", &order::car),
                                            make_column("payed", &order::paid),
                                            make_column("time_of_creating", &order::timeOfCreating),
-                                           make_column("card_payed", &order::cardPayed),
-                                           make_column("rating", &order::rating)));
+                                           make_column("card_payed", &order::cardPayed)));
     storage.sync_schema();
     return storage;
 }
@@ -103,6 +131,7 @@ int passengerGateway::calculatePriceForOrder(address from, address to, carType t
                 return dist * 2;
         }
         order newOrder(from, to, type);
+        newOrder.passenger = currentUser->id;
         currentOrder = &newOrder;
     }
     return 0;
@@ -119,15 +148,19 @@ bool passengerGateway::makeOrder(int cardId) {
             }
         }
         currentOrder->status = waitingForDriver;
+        currentOrder->cardPayed = cardId;
         auto storage = initOrderStorage("../db/db.sqlite");
         storage.insert(*currentOrder);
         return true;
     }
+    std::cout << "need to login" << std::endl;
     return false;
 }
 
-address passengerGateway::getCurrentCoordinates() {
-    return address();
+address passengerGateway::getCoordinatesOfCar() {
+    auto storage = initCarsStorage("..db/db.sqlite");
+    auto travellingCar = storage.get<car>(currentOrder->car);
+    return address("CAR_ADDRESS", travellingCar.x, travellingCar.y);
 }
 
 std::string passengerGateway::getBill() {
@@ -137,3 +170,11 @@ std::string passengerGateway::getBill() {
     bill += currentOrder->driver;
     return bill;
 }
+
+void passengerGateway::setRatingForLastRide(int r) {
+    auto userStorage = initUsersStorage("../db/db.sqlite");
+    auto driver = userStorage.get<user>(currentOrder->driver);
+    driver.updateRating(r);
+    userStorage.update(driver);
+}
+

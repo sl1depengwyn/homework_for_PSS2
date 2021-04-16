@@ -11,9 +11,8 @@
 #include "order.h"
 
 
-class driverGateway : public gateway{
+class driverGateway : public gateway {
 private:
-    int carId;
     car currentCar;
 public:
     bool isWorking;
@@ -24,7 +23,7 @@ public:
     void rest();
     std::vector<order> getAvailableOrders();
     bool takeOrder(int id);
-    bool finishOrder();
+    bool finishOrder(int rating = -1);
     bool addCar(std::string model, std::string numberPlate, std::string color, carType type);
 
 

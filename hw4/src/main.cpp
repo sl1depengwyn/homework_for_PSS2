@@ -1,55 +1,34 @@
-#include <sqlite_orm/sqlite_orm.h>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <cassert>
-#include <unordered_map>
+#include "../headers/passengerGateway.h"
+#include "../headers/driverGateway.h"
+#include "../headers/common.h"
 
-using std::cout;
-using std::endl;
+using namespace std;
 
-struct User {
-    int id;
-    std::string name;
-    std::vector<char> hash;  //  binary format
-};
+int main() {
+    passengerGateway passengerApp;
+    driverGateway driverApp;
 
-struct temp {
-    int id;
-    bool asd;
-};
+    passengerApp.makeOrder();
 
-int main(int, char **) {
-    using namespace sqlite_orm;
-    auto storage = make_storage("../db/users.sqlite",
-                                make_table("users",
-                                           make_column("id", &User::id, primary_key()),
-                                           make_column("name", &User::name),
-                                           make_column("hash", &User::hash)),
-                                make_table("temp",
-                                           make_column("id", &temp::id, primary_key())));
-    storage.sync_schema();
-//    storage.remove_all<User>();
-//
+    passengerApp.registerUser("Mike", "l1va", "qwerty"); // weak password, Mike
+    cout << passengerApp.calculatePriceForOrder(address("IU", 0, 0),
+                                                address("SportComplex", 200, 300),
+                                                economy) << endl;
+    passengerApp.addCard("000000000000", "Mike Ivanov", "10/23", 228);
+    auto cards = passengerApp.getCards();
+    passengerApp.makeOrder(cards[0].id);
 
-    temp t{0, true};
+    driverApp.registerUser("Ivan", "vanya", "asd123");
+    auto orders = driverApp.getAvailableOrders();
+    driverApp.takeOrder(orders[0].id);
+    driverApp.addCar("lada2114", "O000OO16", "black", economy);
+    auto cars = driverApp.getCars();
+    driverApp.chooseCar(cars[0].id);
+    driverApp.takeOrder(orders[0].id);
+    driverApp.finishOrder(5);
+    passengerApp.setRatingForLastRide(5);
+    passengerApp.quit();
+    passengerApp.login("liva", "qwerty");
 
-//    t.id = storage.insert(t);
-
-    User alex{
-            0,
-            "Alex",
-            {0x10, 0x20, 0x30, 0x40},
-    };
-//    alex.id = storage.insert(alex);
-
-    cout << "users count = " << storage.count<User>() << endl;
-
-    cout << "alex = " << storage.dump(storage.get<User>(1)) << endl;
-
-    cout << storage.dump(storage.get_all<temp>()[0]);
-
-    std::hash<std::string> hasher;
-    cout << hasher("asd");
     return 0;
 }

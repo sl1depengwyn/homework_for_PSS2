@@ -9,13 +9,14 @@
 
 class car {
 public:
-    int id;
+    int id = -1;
     int driverId;
     std::string model;
     std::string numberPlate;
     std::string color;
     carType type;
-    int currentAddress;
+    int x;
+    int y;
     int bottleCount;
     void parkRightInFrontOfTheEntrance(order currentOrder);
     car();

@@ -21,7 +21,8 @@ public:
     bool addAddress(address adr);
     int calculatePriceForOrder(address from, address to, carType type);
     bool makeOrder(int cardId = -1);
-    address getCurrentCoordinates();
+    address getCoordinatesOfCar();
+    void setRatingForLastRide(int r);
     std::string getBill();
 
 
