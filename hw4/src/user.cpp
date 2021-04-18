@@ -7,6 +7,8 @@ user::user(string name, string login, string password) {
 
     hash<string> hasher;
 
+    ratingSum = 0;
+    numberOfRides = 0;
     this->name = name;
     this->login = login;
     this->password = hasher(password);

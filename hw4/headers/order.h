@@ -23,7 +23,9 @@ public:
     int driver;
     int car;
     int passenger;
+
     order(address from = address(), address to = address(), carType type = economy);
+
     void assignDriver(int drvr);
 };
 

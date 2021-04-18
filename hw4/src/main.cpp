@@ -8,6 +8,7 @@ int main() {
     passengerGateway passengerApp;
     driverGateway driverApp;
 
+
     passengerApp.makeOrder();
 
     passengerApp.registerUser("Mike", "l1va", "qwerty"); // weak password, Mike
@@ -16,7 +17,7 @@ int main() {
                                                 economy) << endl;
     passengerApp.addCard("000000000000", "Mike Ivanov", "10/23", 228);
     auto cards = passengerApp.getCards();
-    passengerApp.makeOrder(cards[0].id);
+    passengerApp.makeOrder();
 
     driverApp.registerUser("Ivan", "vanya", "asd123");
     auto orders = driverApp.getAvailableOrders();

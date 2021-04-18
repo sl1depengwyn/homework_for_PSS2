@@ -18,9 +18,12 @@ public:
     int x;
     int y;
     int bottleCount;
+
     void parkRightInFrontOfTheEntrance(order currentOrder);
+
     car();
-    car(int driverId, std::string model, std::string numberPlate, std::string color, carType type);
+
+    car(int driverId, std::string model, std::string numberPlate, std::string color, carType type, int x, int y);
 };
 
 

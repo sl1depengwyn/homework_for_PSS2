@@ -3,14 +3,15 @@
 #include <sqlite_orm/sqlite_orm.h>
 #include "../headers/user.h"
 #include "../headers/order.h"
+#include "../headers/car.h"
 #include <iostream>
 
 using namespace sqlite_orm;
 
 gateway::gateway() = default;
 
-inline auto initUsersStorage(const std::string &path) {
-    auto storage = make_storage(path,
+userStorage gateway::initUsersStorage(const std::string &path) {
+    userStorage storage = make_storage(path,
                                 make_table("users",
                                            make_column("id", &user::id, autoincrement(), primary_key()),
                                            make_column("login", &user::login, unique()),
@@ -21,22 +22,65 @@ inline auto initUsersStorage(const std::string &path) {
     return storage;
 }
 
-inline auto initOrderStorage(const std::string &path) {
-    auto storage = make_storage(path,
+orderStorage gateway::initOrdersStorage(const std::string &path) {
+    orderStorage storage = make_storage(path,
                                 make_table("orders",
                                            make_column("id", &order::id, autoincrement(), primary_key()),
                                            make_column("car_type", &order::type),
                                            make_column("status", &order::status),
                                            make_column("driver", &order::driver),
+                                           make_column("passenger", &order::passenger),
+                                           make_column("car", &order::car),
                                            make_column("payed", &order::paid),
+                                           make_column("time_of_creating", &order::timeOfCreating),
                                            make_column("card_payed", &order::cardPayed)));
+    storage.sync_schema();
+    return storage;
+}
+
+cardsStorage gateway::initCardsStorage(const std::string &path) {
+    cardsStorage storage = make_storage(path,
+                                make_table("cards",
+                                           make_column("id", &creditCard::id, autoincrement(), primary_key()),
+                                           make_column("card_number", &creditCard::cardNumber),
+                                           make_column("card_holder", &creditCard::cardHolder),
+                                           make_column("expiration_date", &creditCard::expirationDate),
+                                           make_column("cvv", &creditCard::cvv),
+                                           make_column("owner", &creditCard::userId)));
+    storage.sync_schema();
+    return storage;
+}
+
+adressesStorage gateway::initAddressesStorage(const std::string &path) {
+    adressesStorage storage = make_storage(path,
+                                make_table("addresses",
+                                           make_column("id", &address::id, autoincrement(), primary_key()),
+                                           make_column("string_representation", &address::stringRepresentation),
+                                           make_column("x", &address::x),
+                                           make_column("y", &address::y),
+                                           make_column("owner_id", &address::userId)));
+    storage.sync_schema();
+    return storage;
+}
+
+carsStorage gateway::initCarsStorage(const std::string &path) {
+    carsStorage storage = make_storage(path,
+                                make_table("cars",
+                                           make_column("id", &car::id, autoincrement(), primary_key()),
+                                           make_column("model", &car::model),
+                                           make_column("color", &car::color),
+                                           make_column("type", &car::type),
+                                           make_column("bottles", &car::bottleCount),
+                                           make_column("driver", &car::driverId),
+                                           make_column("x_coord", &car::x),
+                                           make_column("y_coord", &car::y)));
     storage.sync_schema();
     return storage;
 }
 
 void gateway::updateUser() {
     auto storage = initUsersStorage("../db/db.sqlite");
-    storage.update(*currentUser);
+    storage.update(currentUser);
 }
 
 bool gateway::login(std::string login, std::string password) {
@@ -51,7 +95,7 @@ bool gateway::login(std::string login, std::string password) {
         std::cout << "Such login does not exist, wanna register?" << std::endl;
         return false;
     } else if (usr[0].password == hasher(password)) {
-        currentUser = &usr[0];
+        currentUser = usr[0];
         isLoggedIn = true;
         return isLoggedIn;
     } else {
@@ -60,8 +104,6 @@ bool gateway::login(std::string login, std::string password) {
 }
 
 bool gateway::registerUser(std::string name, std::string login, std::string password) {
-
-    std::hash<std::string> hasher;
 
     auto storage = initUsersStorage("../db/db.sqlite");
 
@@ -74,8 +116,8 @@ bool gateway::registerUser(std::string name, std::string login, std::string pass
         return false;
     } else {
         user newUser(name, login, password);
-        newUser.id = storage.insert(newUser);
-        currentUser = &newUser;
+        currentUser = newUser;
+        currentUser.id = storage.insert(newUser);
         isLoggedIn = true;
         return isLoggedIn;
     }
@@ -83,13 +125,14 @@ bool gateway::registerUser(std::string name, std::string login, std::string pass
 
 void gateway::quit() {
     user defaultUser;
-    currentUser = &defaultUser;
+    currentUser = defaultUser;
     isLoggedIn = false;
 }
 
 void gateway::finishCurrentOrder() {
-    auto storage = initOrderStorage("../db/db.sqlite");
-    storage.insert(*currentOrder);
+    auto storage = initOrdersStorage("../db/db.sqlite");
+    storage.insert(currentOrder);
 }
+
 
 
