@@ -8,7 +8,6 @@
 #include "address.h"
 #include <ctime>
 
-class driver;
 
 class order {
 public:

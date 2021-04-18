@@ -4,7 +4,7 @@
 //#define HW4_ADDRES_H
 
 #include <string>
-#include <math.h>
+#include <cmath>
 
 class address {
 public:

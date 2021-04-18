@@ -1,9 +1,4 @@
-
 #include "../headers/gateway.h"
-#include <sqlite_orm/sqlite_orm.h>
-#include "../headers/user.h"
-#include "../headers/order.h"
-#include "../headers/car.h"
 #include <iostream>
 
 using namespace sqlite_orm;
@@ -12,68 +7,69 @@ gateway::gateway() = default;
 
 userStorage gateway::initUsersStorage(const std::string &path) {
     userStorage storage = make_storage(path,
-                                make_table("users",
-                                           make_column("id", &user::id, autoincrement(), primary_key()),
-                                           make_column("login", &user::login, unique()),
-                                           make_column("password", &user::password),
-                                           make_column("name", &user::name),
-                                           make_column("rating", &user::rating)));
+                                       make_table("users",
+                                                  make_column("id", &user::id, autoincrement(), primary_key()),
+                                                  make_column("login", &user::login, unique()),
+                                                  make_column("password", &user::password),
+                                                  make_column("name", &user::name),
+                                                  make_column("rating", &user::rating)));
     storage.sync_schema();
     return storage;
 }
 
 orderStorage gateway::initOrdersStorage(const std::string &path) {
     orderStorage storage = make_storage(path,
-                                make_table("orders",
-                                           make_column("id", &order::id, autoincrement(), primary_key()),
-                                           make_column("car_type", &order::type),
-                                           make_column("status", &order::status),
-                                           make_column("driver", &order::driver),
-                                           make_column("passenger", &order::passenger),
-                                           make_column("car", &order::car),
-                                           make_column("payed", &order::paid),
-                                           make_column("time_of_creating", &order::timeOfCreating),
-                                           make_column("card_payed", &order::cardPayed)));
+                                        make_table("orders",
+                                                   make_column("id", &order::id, autoincrement(), primary_key()),
+                                                   make_column("car_type", &order::type),
+                                                   make_column("status", &order::status),
+                                                   make_column("driver", &order::driver),
+                                                   make_column("passenger", &order::passenger),
+                                                   make_column("car", &order::car),
+                                                   make_column("payed", &order::paid),
+                                                   make_column("time_of_creating", &order::timeOfCreating),
+                                                   make_column("card_payed", &order::cardPayed)));
     storage.sync_schema();
     return storage;
 }
 
 cardsStorage gateway::initCardsStorage(const std::string &path) {
     cardsStorage storage = make_storage(path,
-                                make_table("cards",
-                                           make_column("id", &creditCard::id, autoincrement(), primary_key()),
-                                           make_column("card_number", &creditCard::cardNumber),
-                                           make_column("card_holder", &creditCard::cardHolder),
-                                           make_column("expiration_date", &creditCard::expirationDate),
-                                           make_column("cvv", &creditCard::cvv),
-                                           make_column("owner", &creditCard::userId)));
+                                        make_table("cards",
+                                                   make_column("id", &creditCard::id, autoincrement(), primary_key()),
+                                                   make_column("card_number", &creditCard::cardNumber),
+                                                   make_column("card_holder", &creditCard::cardHolder),
+                                                   make_column("expiration_date", &creditCard::expirationDate),
+                                                   make_column("cvv", &creditCard::cvv),
+                                                   make_column("owner", &creditCard::userId)));
     storage.sync_schema();
     return storage;
 }
 
 adressesStorage gateway::initAddressesStorage(const std::string &path) {
     adressesStorage storage = make_storage(path,
-                                make_table("addresses",
-                                           make_column("id", &address::id, autoincrement(), primary_key()),
-                                           make_column("string_representation", &address::stringRepresentation),
-                                           make_column("x", &address::x),
-                                           make_column("y", &address::y),
-                                           make_column("owner_id", &address::userId)));
+                                           make_table("addresses",
+                                                      make_column("id", &address::id, autoincrement(), primary_key()),
+                                                      make_column("string_representation",
+                                                                  &address::stringRepresentation),
+                                                      make_column("x", &address::x),
+                                                      make_column("y", &address::y),
+                                                      make_column("owner_id", &address::userId)));
     storage.sync_schema();
     return storage;
 }
 
 carsStorage gateway::initCarsStorage(const std::string &path) {
     carsStorage storage = make_storage(path,
-                                make_table("cars",
-                                           make_column("id", &car::id, autoincrement(), primary_key()),
-                                           make_column("model", &car::model),
-                                           make_column("color", &car::color),
-                                           make_column("type", &car::type),
-                                           make_column("bottles", &car::bottleCount),
-                                           make_column("driver", &car::driverId),
-                                           make_column("x_coord", &car::x),
-                                           make_column("y_coord", &car::y)));
+                                       make_table("cars",
+                                                  make_column("id", &car::id, autoincrement(), primary_key()),
+                                                  make_column("model", &car::model),
+                                                  make_column("color", &car::color),
+                                                  make_column("type", &car::type),
+                                                  make_column("bottles", &car::bottleCount),
+                                                  make_column("driver", &car::driverId),
+                                                  make_column("x_coord", &car::x),
+                                                  make_column("y_coord", &car::y)));
     storage.sync_schema();
     return storage;
 }

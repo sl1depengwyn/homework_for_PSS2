@@ -17,6 +17,6 @@ user::user(string name, string login, string password) {
 
 void user::updateRating(int r) {
     ratingSum += r;
-    numberOfRides ++;
+    numberOfRides++;
     rating = ratingSum / numberOfRides;
 }

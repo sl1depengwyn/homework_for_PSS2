@@ -1,6 +1,5 @@
 #include "../headers/passengerGateway.h"
 #include "../headers/driverGateway.h"
-#include "../headers/common.h"
 
 using namespace std;
 
@@ -27,9 +26,10 @@ int main() {
     driverApp.chooseCar(cars[0].id);
     driverApp.takeOrder(orders[0].id);
     driverApp.finishOrder(5);
+    passengerApp.getBill();
     passengerApp.setRatingForLastRide(5);
     passengerApp.quit();
-    passengerApp.login("liva", "qwerty");
+    passengerApp.login("l1va", "qwerty");
 
     return 0;
 }
