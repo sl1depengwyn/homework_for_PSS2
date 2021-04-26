@@ -40,8 +40,12 @@ void driverGateway::rest() {
 std::vector<order> driverGateway::getAvailableOrders() {
     if (isLoggedIn) {
         auto storage = initOrdersStorage("../db/db.sqlite");
-        auto orders = storage.get_all<order>(where(is_equal(&order::status, waitingForDriver)
-                                                   and lesser_or_equal(&order::type, currentCar.type)));
+        auto orders = storage.get_all<order>(where(is_equal(&order::status, waitingForDriver)));
+        for (auto i = orders.begin(); i != orders.end(); i++) {
+            if (i->type > currentCar.type) {
+                orders.erase(i);
+            }
+        }
         return orders;
     }
     std::cout << "Need to login" << std::endl;
@@ -49,6 +53,7 @@ std::vector<order> driverGateway::getAvailableOrders() {
 }
 
 bool driverGateway::takeOrder(int id) {
+    currentCar = initCarsStorage("../db/db.sqlite").get<car>(currentCar.id);
     if (!currentUser.canAcceptOrders) {
         std::cout << "You are not allowed to take orders!" << std::endl;
         return false;
@@ -80,21 +85,6 @@ bool driverGateway::takeOrder(int id) {
 bool driverGateway::finishOrder(int rating) {
     if (isLoggedIn) {
         currentOrder.status = finished;
-        currentOrder.paid = currentOrder.from.calculateDist(currentOrder.to);
-        switch (currentOrder.type) {
-            case economy:
-                currentOrder.paid *= 0.9;
-                break;
-            case comfort:
-                currentOrder.paid *= 1.3;
-                break;
-            case comfortPlus:
-                currentOrder.paid *= 1.5;
-                break;
-            case business:
-                currentOrder.paid *= 2;
-                break;
-        }
         auto storage = initOrdersStorage("../db/db.sqlite");
         storage.update(currentOrder);
         if (rating != -1) {

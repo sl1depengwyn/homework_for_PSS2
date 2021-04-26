@@ -12,8 +12,8 @@
 
 typedef sqlite_orm::internal::storage_t<sqlite_orm::internal::table_t<user, sqlite_orm::internal::column_t<user, int, const int &(user::*)() const, void (user::*)(
         int), sqlite_orm::constraints::autoincrement_t, sqlite_orm::constraints::primary_key_t<>>, sqlite_orm::internal::column_t<user, std::__cxx11::basic_string<char>, const std::__cxx11::basic_string<char> &(user::*)() const, void (user::*)(
-        std::__cxx11::basic_string<char>), sqlite_orm::constraints::unique_t<>>, sqlite_orm::internal::column_t<user, int, const int &(user::*)() const, void (user::*)(
-        int)>, sqlite_orm::internal::column_t<user, std::__cxx11::basic_string<char>, const std::__cxx11::basic_string<char> &(user::*)() const, void (user::*)(
+        std::__cxx11::basic_string<char>), sqlite_orm::constraints::unique_t<>>, sqlite_orm::internal::column_t<user, unsigned long long, const unsigned long long &(user::*)() const, void (user::*)(
+        unsigned long long)>, sqlite_orm::internal::column_t<user, std::__cxx11::basic_string<char>, const std::__cxx11::basic_string<char> &(user::*)() const, void (user::*)(
         std::__cxx11::basic_string<char>)>, sqlite_orm::internal::column_t<user, bool, const bool &(user::*)() const, void (user::*)(
         bool)>, sqlite_orm::internal::column_t<user, bool, const bool &(user::*)() const, void (user::*)(
         bool)>, sqlite_orm::internal::column_t<user, bool, const bool &(user::*)() const, void (user::*)(

@@ -17,7 +17,7 @@ public:
     double ratingSum;
     double numberOfRides;
     std::string login;
-    int password;
+    unsigned long long int password;
     bool isAdmin;
     bool canMakeOrders;
     bool canAcceptOrders;

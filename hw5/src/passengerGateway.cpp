@@ -1,6 +1,6 @@
 #include <sqlite_orm/sqlite_orm.h>
 #include "../headers/passengerGateway.h"
-
+#include <ctime>
 using namespace sqlite_orm;
 
 passengerGateway::passengerGateway() {
@@ -53,6 +53,7 @@ bool passengerGateway::addCard(std::string cardNumber, std::string cardHolder, s
 bool passengerGateway::addAddress(address adr) {
     if (isLoggedIn) {
         auto storage = initAddressesStorage("../db/db.sqlite");
+        adr.userId = currentUser.id;
         storage.insert(adr);
         return true;
     }
@@ -68,13 +69,17 @@ int passengerGateway::calculatePriceForOrder(address from, address to, carType t
         currentOrder = newOrder;
         switch (type) {
             case economy:
-                return dist * 0.9;
+                currentOrder.paid = dist * 0.9;
+                return currentOrder.paid;
             case comfort:
-                return dist * 1.3;
+                currentOrder.paid = dist * 1.3;
+                return currentOrder.paid;
             case comfortPlus:
-                return dist * 1.5;
+                currentOrder.paid = dist * 1.5;
+                return currentOrder.paid;
             case business:
-                return dist * 2;
+                currentOrder.paid = dist * 2;
+                return currentOrder.paid;
         }
     }
     std::cout << "Need to login" << std::endl;
@@ -89,8 +94,8 @@ bool passengerGateway::makeOrder(int cardId) {
     if (isLoggedIn) {
         if (cardId != -1) {
             auto cards = getCards();
-            if (cards.size() > cardId) {
-                currentOrder.cardPayed = getCards()[cardId].id;
+            if (cards.size() >= cardId) {
+                currentOrder.cardPayed = cardId;
             } else {
                 return false;
             }
@@ -107,7 +112,8 @@ bool passengerGateway::makeOrder(int cardId) {
 
 address passengerGateway::getCoordinatesOfCar() {
     if (isLoggedIn) {
-        auto storage = initCarsStorage("..db/db.sqlite");
+        currentOrder = initOrdersStorage("../db/db.sqlite").get<order>(currentOrder.id);
+        auto storage = initCarsStorage("../db/db.sqlite");
         auto travellingCar = storage.get<car>(currentOrder.car);
         return address("CAR_ADDRESS", travellingCar.x, travellingCar.y);
     }
@@ -117,10 +123,14 @@ address passengerGateway::getCoordinatesOfCar() {
 
 std::string passengerGateway::getBill() {
     if (isLoggedIn) {
-        std::string bill = "Today date\n";
-        bill += currentOrder.paid;
+        currentOrder = initOrdersStorage("../db/db.sqlite").get<order>(currentOrder.id);
+        std::time_t t(currentOrder.timeOfCreating);
+        std::string bill = std::asctime(localtime(&t));
+        bill += "\n paid: ";
+        bill += std::to_string(currentOrder.paid);
+        bill += "\n driver: ";
+        bill += std::to_string(currentOrder.driver);
         bill += '\n';
-        bill += currentOrder.driver;
         return bill;
     }
     std::cout << "Need to login" << std::endl;
@@ -130,9 +140,9 @@ std::string passengerGateway::getBill() {
 void passengerGateway::setRatingForLastRide(int r) {
     if (isLoggedIn) {
         if (currentOrder.id != -1) {
-            auto completeOrder = initOrdersStorage("../db/db.sqlite").get<order>(currentOrder.id);
+            currentOrder = initOrdersStorage("../db/db.sqlite").get<order>(currentOrder.id);
             auto userStorage = initUsersStorage("../db/db.sqlite");
-            auto driver = userStorage.get<user>(completeOrder.driver);
+            auto driver = userStorage.get<user>(currentOrder.driver);
             driver.updateRating(r);
             userStorage.update(driver);
         }

@@ -14,7 +14,7 @@ public:
     std::string model;
     std::string numberPlate;
     std::string color;
-    carType type;
+    carType type = economy;
     int x;
     int y;
     int bottleCount;
