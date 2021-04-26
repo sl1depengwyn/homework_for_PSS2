@@ -40,8 +40,12 @@ void driverGateway::rest() {
 std::vector<order> driverGateway::getAvailableOrders() {
     if (isLoggedIn) {
         auto storage = initOrdersStorage("../db/db.sqlite");
-        auto orders = storage.get_all<order>(where(is_equal(&order::status, waitingForDriver)
-                                                   and lesser_or_equal(&order::type, currentCar.type)));
+        auto orders = storage.get_all<order>(where(is_equal(&order::status, waitingForDriver)));
+        for (auto i = orders.begin(); i != orders.end(); i++) {
+            if (i->type > currentCar.type) {
+                orders.erase(i);
+            }
+        }
         return orders;
     }
     std::cout << "Need to login" << std::endl;
