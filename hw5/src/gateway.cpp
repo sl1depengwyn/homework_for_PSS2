@@ -12,6 +12,7 @@ userStorage gateway::initUsersStorage(const std::string &path) {
                                                   make_column("login", &user::login, unique()),
                                                   make_column("password", &user::password),
                                                   make_column("name", &user::name),
+                                                  make_column("is_admin", &user::isAdmin),
                                                   make_column("is_allowed_to_make_order", &user::canMakeOrders),
                                                   make_column("is_allowed_to_accept_order", &user::canAcceptOrders),
                                                   make_column("rating", &user::rating)));

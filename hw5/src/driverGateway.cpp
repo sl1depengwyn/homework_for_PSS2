@@ -49,6 +49,14 @@ std::vector<order> driverGateway::getAvailableOrders() {
 }
 
 bool driverGateway::takeOrder(int id) {
+    if (!currentUser.canAcceptOrders) {
+        std::cout << "You are not allowed to take orders!" << std::endl;
+        return false;
+    }
+    if (!currentCar.isValidated) {
+        std::cout << "Firstly, you need to validate your car!" << std::endl;
+        return false;
+    }
     if (isLoggedIn) {
         if (currentCar.id == -1) {
             std::cout << "You have no car" << std::endl;

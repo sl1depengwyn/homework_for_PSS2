@@ -82,6 +82,10 @@ int passengerGateway::calculatePriceForOrder(address from, address to, carType t
 }
 
 bool passengerGateway::makeOrder(int cardId) {
+    if (!currentUser.canMakeOrders) {
+        std::cout << "You are not allowed to make orders!" << std::endl;
+        return false;
+    }
     if (isLoggedIn) {
         if (cardId != -1) {
             auto cards = getCards();

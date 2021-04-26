@@ -16,6 +16,7 @@ typedef sqlite_orm::internal::storage_t<sqlite_orm::internal::table_t<user, sqli
         int)>, sqlite_orm::internal::column_t<user, std::__cxx11::basic_string<char>, const std::__cxx11::basic_string<char> &(user::*)() const, void (user::*)(
         std::__cxx11::basic_string<char>)>, sqlite_orm::internal::column_t<user, bool, const bool &(user::*)() const, void (user::*)(
         bool)>, sqlite_orm::internal::column_t<user, bool, const bool &(user::*)() const, void (user::*)(
+        bool)>, sqlite_orm::internal::column_t<user, bool, const bool &(user::*)() const, void (user::*)(
         bool)>, sqlite_orm::internal::column_t<user, double, const double &(user::*)() const, void (user::*)(
         double)>>> userStorage;
 typedef sqlite_orm::internal::storage_t<sqlite_orm::internal::table_t<order, sqlite_orm::internal::column_t<order, int, const int &(order::*)() const, void (order::*)(

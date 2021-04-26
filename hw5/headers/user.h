@@ -18,6 +18,7 @@ public:
     double numberOfRides;
     std::string login;
     int password;
+    bool isAdmin;
     bool canMakeOrders;
     bool canAcceptOrders;
 

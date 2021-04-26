@@ -14,6 +14,8 @@ It creates orders and manipulates them keeping all necessary information in data
 
 It has rating system.
 
+It has admins system that can block passengers and drivers and can validate cars.
+
 ## Dependencies
 sqlite_orm/1.6
 
