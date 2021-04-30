@@ -2,4 +2,5 @@
 CMakeLists.txt
 cmake-build-debug/
 modules/
-db/
+
+hw4/db/db.sqlite
